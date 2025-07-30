@@ -12,17 +12,25 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('users', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+         $table->string('alamat')->nullable();
+        $table->string('nik')->unique();
+        $table->string('phone');
+        $table->string('email')->unique();
+        $table->timestamp('email_verified_at')->nullable();
+        $table->string('password');
+        $table->boolean('is_admin')->default(false);
+        $table->string('status')->default('offline');
+        $table->string('role')->default('user');
+        $table->boolean('is_banned')->default(false);
+        $table->rememberToken();
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.

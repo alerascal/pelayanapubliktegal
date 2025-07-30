@@ -1,0 +1,116 @@
+
+
+<?php $__env->startSection('title', 'Detail Aspirasi'); ?>
+
+<?php $__env->startPush('style'); ?>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: linear-gradient(135deg, #ffffff, #f7fbff);
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 51, 102, 0.2);
+    }
+    .table th, .table td {
+        vertical-align: middle;
+        padding: 1rem;
+        transition: background-color 0.3s ease;
+    }
+    .table th:hover, .table td:hover {
+        background-color: #f1f3f5;
+    }
+    .btn {
+        transition: transform 0.3s ease;
+    }
+    .btn:hover {
+        transform: scale(1.05);
+    }
+    @media (max-width: 767px) {
+        .card-body {
+            padding: 1.5rem;
+        }
+        .table th, .table td {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            padding: 0.75rem;
+        }
+        .btn {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+<?php $__env->stopPush(); ?>
+
+<?php $__env->startSection('main'); ?>
+<div class="main-content">
+    <section class="section animate__animated animate__fadeIn">
+        <div class="section-header flex justify-between items-center mb-6">
+            <h1 class="text-dark fw-bold animate__animated animate__fadeInDown" 
+                style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);">
+                <i class="fas fa-envelope-open-text mr-2 text-blue-600"></i> Detail Aspirasi
+            </h1>
+            <div class="ml-auto">
+                <a href="<?php echo e(route('aspirasi.index')); ?>" class="btn btn-primary" title="Kembali ke Daftar">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali
+                </a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="card animate__animated animate__fadeInUp" 
+                     style="border: none; box-shadow: 0 10px 25px rgba(0, 51, 102, 0.1);">
+                    <div class="card-header bg-primary text-white" 
+                         style="background: linear-gradient(45deg, #003366, #1e90ff); border-radius: 15px 15px 0 0;">
+                        <h4 class="mb-0 fw-bold" style="font-size: clamp(1.5rem, 2.5vw, 1.8rem);">
+                            Informasi Aspirasi
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <table class="table table-bordered table-hover align-middle" 
+                               style="border-color: #dee2e6; background-color: #ffffff;">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 30%; background-color: #f8f9fa; color: #003366;">Judul Aspirasi</th>
+                                    <td><?php echo e($aspirasi->judul); ?></td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f8f9fa; color: #003366;">Isi Aspirasi</th>
+                                    <td class="whitespace-pre-wrap"><?php echo e($aspirasi->isi); ?></td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f8f9fa; color: #003366;">Pengirim</th>
+                                    <td><?php echo e($aspirasi->user->name ?? 'Anonim'); ?></td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f8f9fa; color: #003366;">Tanggal Dikirim</th>
+                                    <td><?php echo e($aspirasi->created_at->format('d M Y H:i')); ?></td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f8f9fa; color: #003366;">Lampiran</th>
+                                    <td>
+                                        <?php if($aspirasi->lampiran): ?>
+                                            <a href="<?php echo e(asset('storage/' . $aspirasi->lampiran)); ?>" 
+                                               class="btn btn-sm btn-info" 
+                                               target="_blank">
+                                                <i class="fas fa-file-download mr-1"></i> Lihat Lampiran
+                                            </a>
+                                        <?php else: ?>
+                                            <span class="text-gray-500">Tidak ada lampiran</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\penting\pelayanan_publik_dprd\pelayanan_publik_dprd\resources\views/pages/backend/aspirasi/show.blade.php ENDPATH**/ ?>

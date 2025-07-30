@@ -13,10 +13,13 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
-        // $schedule->command('inspire')->hourly();
-    }
+   protected function schedule(Schedule $schedule)
+{
+    $schedule->command('status:cek-hangus')->daily(); // untuk magang
+    $schedule->command('status:cek-hangus-aspirasi')->daily(); // untuk aspirasi
+}
+
+
 
     /**
      * Register the commands for the application.

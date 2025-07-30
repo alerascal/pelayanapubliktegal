@@ -3650,4 +3650,34 @@ body.layout-3 .main-wrapper {
     -webkit-transform: scale(1.2, 1.2);
     opacity: 0;
   }
+  .main-sidebar {
+    width: 250px;
+    border-right: 1px solid #eaeaea;
+}
+
+.sidebar-menu li a {
+    padding: 12px 20px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    color: #4f4f4f;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li.active > a {
+    background-color: #f0f4ff;
+    color: #1f6feb;
+}
+
+.sidebar-menu .menu-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8c8c8c;
+    text-transform: uppercase;
+    margin-top: 10px;
+    padding-left: 15px;
+}
+
 }

@@ -4,19 +4,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Password Reset Language Lines
+    | Baris Bahasa untuk Reset Kata Sandi
     |--------------------------------------------------------------------------
     |
-    | The following language lines are the default lines which match reasons
-    | that are given by the password broker for a password update attempt
-    | has failed, such as for an invalid token or invalid new password.
+    | Baris bahasa berikut adalah pesan default yang ditampilkan oleh broker
+    | kata sandi saat proses pengaturan ulang kata sandi, seperti untuk token
+    | tidak valid atau kesalahan dalam data yang diberikan.
     |
     */
 
-    'reset' => 'Your password has been reset!',
-    'sent' => 'We have emailed your password reset link!',
-    'throttled' => 'Please wait before retrying.',
-    'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that email address.",
+    'reset' => 'Kata sandi Anda telah berhasil direset!',
+    'sent' => 'Kami telah mengirimkan link di email anda untuk mengatur ulang kata sandi Anda!',
+    'throttled' => 'Silakan tunggu sebelum mencoba kembali.',
+    'token' => 'Token pengaturan ulang kata sandi ini tidak valid.',
+    'user' => 'Kami tidak dapat menemukan pengguna dengan alamat email tersebut.',
 
 ];

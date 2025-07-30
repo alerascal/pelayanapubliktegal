@@ -15,16 +15,19 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
-    {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
-        ];
-    }
+   public function definition()
+{
+    return [
+        'name' => fake()->name(),
+        'email' => fake()->safeEmail(),
+        'email_verified_at' => now(),
+        'password' => bcrypt('password'), // kamu bisa pakai hash langsung juga
+        'remember_token' => Str::random(10),
+        'nik' => fake()->numerify('################'), // contoh 16 digit NIK
+          'phone' => fake()->phoneNumber(), 
+    ];
+}
+
 
     /**
      * Indicate that the model's email address should be unverified.

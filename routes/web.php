@@ -1,261 +1,164 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\AnggotaDewanController;
+use App\Http\Controllers\PemberitahuanController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\AspirasiController;
+use App\Http\Controllers\LowonganMagangController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\UserLogController;
+use App\Http\Controllers\LaporanController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::redirect('/', '/dashboard-general-dashboard');
-
-// Dashboard
-Route::get('/dashboard-general-dashboard', function () {
-    return view('pages.dashboard-general-dashboard', ['type_menu' => 'dashboard']);
-});
-Route::get('/dashboard-ecommerce-dashboard', function () {
-    return view('pages.dashboard-ecommerce-dashboard', ['type_menu' => 'dashboard']);
-});
-
-
-// Layout
-Route::get('/layout-default-layout', function () {
-    return view('pages.layout-default-layout', ['type_menu' => 'layout']);
-});
-
-// Blank Page
-Route::get('/blank-page', function () {
-    return view('pages.blank-page', ['type_menu' => '']);
+// -------------------------
+// Guest routes (Unauthenticated)
+// -------------------------
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
 });
 
-// Bootstrap
-Route::get('/bootstrap-alert', function () {
-    return view('pages.bootstrap-alert', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-badge', function () {
-    return view('pages.bootstrap-badge', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-breadcrumb', function () {
-    return view('pages.bootstrap-breadcrumb', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-buttons', function () {
-    return view('pages.bootstrap-buttons', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-card', function () {
-    return view('pages.bootstrap-card', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-carousel', function () {
-    return view('pages.bootstrap-carousel', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-collapse', function () {
-    return view('pages.bootstrap-collapse', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-dropdown', function () {
-    return view('pages.bootstrap-dropdown', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-form', function () {
-    return view('pages.bootstrap-form', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-list-group', function () {
-    return view('pages.bootstrap-list-group', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-media-object', function () {
-    return view('pages.bootstrap-media-object', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-modal', function () {
-    return view('pages.bootstrap-modal', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-nav', function () {
-    return view('pages.bootstrap-nav', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-navbar', function () {
-    return view('pages.bootstrap-navbar', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-pagination', function () {
-    return view('pages.bootstrap-pagination', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-popover', function () {
-    return view('pages.bootstrap-popover', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-progress', function () {
-    return view('pages.bootstrap-progress', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-table', function () {
-    return view('pages.bootstrap-table', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-tooltip', function () {
-    return view('pages.bootstrap-tooltip', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-typography', function () {
-    return view('pages.bootstrap-typography', ['type_menu' => 'bootstrap']);
-});
+// -------------------------
+// Email verification
+// -------------------------
+Route::get('/email/verify', fn () => view('pages.auth.emails.verify'))
+    ->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Link verifikasi telah dikirim!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
-// components
-Route::get('/components-article', function () {
-    return view('pages.components-article', ['type_menu' => 'components']);
-});
-Route::get('/components-avatar', function () {
-    return view('pages.components-avatar', ['type_menu' => 'components']);
-});
-Route::get('/components-chat-box', function () {
-    return view('pages.components-chat-box', ['type_menu' => 'components']);
-});
-Route::get('/components-empty-state', function () {
-    return view('pages.components-empty-state', ['type_menu' => 'components']);
-});
-Route::get('/components-gallery', function () {
-    return view('pages.components-gallery', ['type_menu' => 'components']);
-});
-Route::get('/components-hero', function () {
-    return view('pages.components-hero', ['type_menu' => 'components']);
-});
-Route::get('/components-multiple-upload', function () {
-    return view('pages.components-multiple-upload', ['type_menu' => 'components']);
-});
-Route::get('/components-pricing', function () {
-    return view('pages.components-pricing', ['type_menu' => 'components']);
-});
-Route::get('/components-statistic', function () {
-    return view('pages.components-statistic', ['type_menu' => 'components']);
-});
-Route::get('/components-tab', function () {
-    return view('pages.components-tab', ['type_menu' => 'components']);
-});
-Route::get('/components-table', function () {
-    return view('pages.components-table', ['type_menu' => 'components']);
-});
-Route::get('/components-user', function () {
-    return view('pages.components-user', ['type_menu' => 'components']);
-});
-Route::get('/components-wizard', function () {
-    return view('pages.components-wizard', ['type_menu' => 'components']);
+
+// -------------------------
+// Logout
+// -------------------------
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+// -------------------------
+// Public Pages
+// -------------------------
+Route::get('/', [FrontendController::class, 'home'])->name('home');
+Route::get('/post/{slug}', [FrontendController::class, 'postDetail'])->name('post.detail');
+Route::view('/sejarah', 'pages.frontend.sejarah')->name('sejarah');
+Route::view('/visimisi', 'pages.frontend.visimisi')->name('visimisi');
+Route::get('/sekretariat', [FrontendController::class, 'sekretariat'])->name('sekretariat');
+Route::get('/lowongan-magang', [LowonganMagangController::class, 'frontendIndex'])->name('magang.lowongan');
+Route::get('/anggota-dewan', [AnggotaDewanController::class, 'showAnggota'])->name('anggota.showAnggota');
+
+// -------------------------
+// Authenticated (All users)
+// -------------------------
+Route::middleware('auth')->group(function () {
+    Route::put('/profile/update', [DashboardController::class, 'update'])->name('profile.update');
+
+    Route::get('/magang/daftar/{id}', [LowonganMagangController::class, 'showForm'])->name('magang.form');
+    Route::post('/magang/daftar/{id}', [LowonganMagangController::class, 'storePendaftaran'])->name('magang.daftar.store');
+
+    Route::get('/aspirasi/create', [AspirasiController::class, 'create'])->name('aspirasi.create');
+    Route::post('/aspirasi/store', [AspirasiController::class, 'store'])->name('aspirasi.store');
+
+    Route::get('/pemberitahuan', [PemberitahuanController::class, 'pemberitahuan'])->name('pemberitahuan');
 });
 
-// forms
-Route::get('/forms-advanced-form', function () {
-    return view('pages.forms-advanced-form', ['type_menu' => 'forms']);
-});
-Route::get('/forms-editor', function () {
-    return view('pages.forms-editor', ['type_menu' => 'forms']);
-});
-Route::get('/forms-validation', function () {
-    return view('pages.forms-validation', ['type_menu' => 'forms']);
-});
+// -------------------------
+// Admin-Only Routes
+// -------------------------
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-// google maps
-// belum tersedia
+    // Grouped under /backend prefix
+    Route::prefix('backend')->group(function () {
+        // Berita
+        Route::resource('berita', BeritaController::class)->parameters(['berita' => 'berita']);
 
-// modules
-Route::get('/modules-calendar', function () {
-    return view('pages.modules-calendar', ['type_menu' => 'modules']);
-});
-Route::get('/modules-chartjs', function () {
-    return view('pages.modules-chartjs', ['type_menu' => 'modules']);
-});
-Route::get('/modules-datatables', function () {
-    return view('pages.modules-datatables', ['type_menu' => 'modules']);
-});
-Route::get('/modules-flag', function () {
-    return view('pages.modules-flag', ['type_menu' => 'modules']);
-});
-Route::get('/modules-font-awesome', function () {
-    return view('pages.modules-font-awesome', ['type_menu' => 'modules']);
-});
-Route::get('/modules-ion-icons', function () {
-    return view('pages.modules-ion-icons', ['type_menu' => 'modules']);
-});
-Route::get('/modules-owl-carousel', function () {
-    return view('pages.modules-owl-carousel', ['type_menu' => 'modules']);
-});
-Route::get('/modules-sparkline', function () {
-    return view('pages.modules-sparkline', ['type_menu' => 'modules']);
-});
-Route::get('/modules-sweet-alert', function () {
-    return view('pages.modules-sweet-alert', ['type_menu' => 'modules']);
-});
-Route::get('/modules-toastr', function () {
-    return view('pages.modules-toastr', ['type_menu' => 'modules']);
-});
-Route::get('/modules-vector-map', function () {
-    return view('pages.modules-vector-map', ['type_menu' => 'modules']);
-});
-Route::get('/modules-weather-icon', function () {
-    return view('pages.modules-weather-icon', ['type_menu' => 'modules']);
-});
+        // Anggota Dewan
+        Route::resource('anggota', AnggotaDewanController::class);
 
-// auth
-Route::get('/auth-forgot-password', function () {
-    return view('pages.auth-forgot-password', ['type_menu' => 'auth']);
-});
-Route::get('/auth-login', function () {
-    return view('pages.auth-login', ['type_menu' => 'auth']);
-});
-Route::get('/auth-login2', function () {
-    return view('pages.auth-login2', ['type_menu' => 'auth']);
-});
-Route::get('/auth-register', function () {
-    return view('pages.auth-register', ['type_menu' => 'auth']);
-});
-Route::get('/auth-reset-password', function () {
-    return view('pages.auth-reset-password', ['type_menu' => 'auth']);
-});
+        // Aspirasi (admin)
+        Route::prefix('aspirasi')->group(function () {
+            Route::get('/', [AspirasiController::class, 'index'])->name('aspirasi.index');
+            Route::get('/arsip', [AspirasiController::class, 'arsip'])->name('aspirasi.arsip');
+            Route::get('/{id}', [AspirasiController::class, 'show'])->name('aspirasi.show');
+            Route::patch('/{id}/update-status', [AspirasiController::class, 'updateStatus'])->name('aspirasi.updateStatus');
+            Route::delete('/{id}', [AspirasiController::class, 'destroy'])->name('aspirasi.destroy');
+            Route::post('/restore/{id}', [AspirasiController::class, 'restore'])->name('aspirasi.restore');
+            Route::post('/restore-all', [AspirasiController::class, 'restoreAll'])->name('aspirasi.restoreAll');
+            Route::post('/hapus-semua', [AspirasiController::class, 'destroyAll'])->name('aspirasi.destroyAll');
+            Route::delete('/delete-permanent/{id}', [AspirasiController::class, 'deletePermanent'])->name('aspirasi.deletePermanent');
+            Route::post('/destroy-archived-permanent', [AspirasiController::class, 'destroyAllPermanentArchived'])->name('aspirasi.destroyAllPermanentArchived');
+            Route::post('/export-pdf', [AspirasiController::class, 'exportPdf'])->name('aspirasi.export.pdf');
+            Route::post('/export-excel', [AspirasiController::class, 'exportExcel'])->name('aspirasi.export.excel');
+            Route::get('/preview', [LaporanController::class, 'previewAspirasi'])->name('aspirasi.preview');
+        });
 
-// error
-Route::get('/error-403', function () {
-    return view('pages.error-403', ['type_menu' => 'error']);
-});
-Route::get('/error-404', function () {
-    return view('pages.error-404', ['type_menu' => 'error']);
-});
-Route::get('/error-500', function () {
-    return view('pages.error-500', ['type_menu' => 'error']);
-});
-Route::get('/error-503', function () {
-    return view('pages.error-503', ['type_menu' => 'error']);
-});
+        // Magang
+        Route::prefix('magang')->group(function () {
+            Route::get('/', [LowonganMagangController::class, 'index'])->name('magang.index');
+            Route::get('/create', [LowonganMagangController::class, 'create'])->name('magang.create');
+            Route::post('/store', [LowonganMagangController::class, 'store'])->name('magang.store');
+            Route::get('/edit/{id}', [LowonganMagangController::class, 'edit'])->name('magang.edit');
+            Route::put('/update/{id}', [LowonganMagangController::class, 'update'])->name('magang.update');
+            Route::delete('/delete/{id}', [LowonganMagangController::class, 'destroy'])->name('magang.destroy');
+            Route::get('/show/{id}', [LowonganMagangController::class, 'show'])->name('magang.show');
+            Route::delete('/hapus-tahun/{tahun}', [LowonganMagangController::class, 'hapusLowonganByTahun'])->name('magang.hapusTahun');
+            Route::get('/pendaftar', [LowonganMagangController::class, 'pendaftar'])->name('magang.pendaftar');
+            Route::delete('/hapus-expired', [LowonganMagangController::class, 'hapusExpired'])->name('magang.hapusExpired');
+            Route::post('/export-lowongan-pdf/{id}', [LowonganMagangController::class, 'exportLowonganPdf'])->name('magang.export.lowongan.pdf');
+            Route::post('/export-lowongan-excel/{id}', [LowonganMagangController::class, 'exportLowonganExcel'])->name('magang.export.lowongan.excel');
+            Route::post('/export-pdf/pendaftar/{id}', [LowonganMagangController::class, 'exportPdf'])->name('magang.export.pdf');
+            Route::get('/pendaftar/{id}', [LowonganMagangController::class, 'showPendaftar'])->name('pendaftar.detail');
+            Route::post('/export-excel/lowongan/{id}', [LowonganMagangController::class, 'exportExcel'])->name('magang.export.excel');
+            Route::get('/pendaftar/detail/{id}', [LowonganMagangController::class, 'pendaftarByLowongan'])->name('magang.pendaftar.detail');
+            Route::patch('/pendaftar/status/{id}', [LowonganMagangController::class, 'ubahStatus'])->name('magang.status');
+            Route::delete('/pendaftar/{id}', [LowonganMagangController::class, 'hapusPendaftar'])->name('pendaftar.hapus');
+            Route::post('/export-semua-pdf', [LowonganMagangController::class, 'exportSemuaPdf'])->name('magang.export.all.pdf');
+            Route::post('/export-semua-excel', [LowonganMagangController::class, 'exportSemuaExcel'])->name('magang.export.all.excel');
+            Route::delete('/{id}/hapus-semua', [LowonganMagangController::class, 'hapusSemuaPendaftar'])->name('pendaftar.hapus.semua');
+        });
 
-// features
-Route::get('/features-activities', function () {
-    return view('pages.features-activities', ['type_menu' => 'features']);
-});
-Route::get('/features-post-create', function () {
-    return view('pages.features-post-create', ['type_menu' => 'features']);
-});
-Route::get('/features-post', function () {
-    return view('pages.features-post', ['type_menu' => 'features']);
-});
-Route::get('/features-profile', function () {
-    return view('pages.features-profile', ['type_menu' => 'features']);
-});
-Route::get('/features-settings', function () {
-    return view('pages.features-settings', ['type_menu' => 'features']);
-});
-Route::get('/features-setting-detail', function () {
-    return view('pages.features-setting-detail', ['type_menu' => 'features']);
-});
-Route::get('/features-tickets', function () {
-    return view('pages.features-tickets', ['type_menu' => 'features']);
-});
+        // Laporan
+        Route::prefix('laporan')->group(function () {
+            Route::get('/', [LaporanController::class, 'index'])->name('laporan.index');
+            Route::post('/export/pdf', [LaporanController::class, 'exportPdf'])->name('laporan.export.pdf');
+            Route::post('/export/excel', [LaporanController::class, 'exportExcel'])->name('laporan.export.excel');
+            Route::get('/preview-aspirasi', [LaporanController::class, 'previewAspirasi'])->name('laporan.preview-aspirasi');
+            Route::get('/preview-magang', [LaporanController::class, 'previewMagang'])->name('laporan.preview-magang');
+            Route::get('/preview-laporan', [LaporanController::class, 'previewLaporan'])->name('laporan.preview-laporan');
+            Route::post('/export-laporan-pdf', [LaporanController::class, 'exportLaporanPDF'])->name('laporan.export-laporan-pdf');
+            Route::post('/export-laporan-excel', [LaporanController::class, 'exportLaporanExcel'])->name('laporan.export-laporan-excel');
+        });
 
-// utilities
-Route::get('/utilities-contact', function () {
-    return view('pages.utilities-contact', ['type_menu' => 'utilities']);
-});
-Route::get('/utilities-invoice', function () {
-    return view('pages.utilities-invoice', ['type_menu' => 'utilities']);
-});
-Route::get('/utilities-subscribe', function () {
-    return view('pages.utilities-subscribe', ['type_menu' => 'utilities']);
-});
+        // Admin User Management
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('/users', [UserController::class, 'index'])->name('users.index');
+            Route::post('/users/{id}/ban', [UserController::class, 'ban'])->name('users.ban');
+            Route::post('/users/{id}/unban', [UserController::class, 'unban'])->name('users.unban');
+            Route::post('/users/{user}/change-role', [UserController::class, 'changeRole'])->name('users.changeRole');
 
-// credits
-Route::get('/credits', function () {
-    return view('pages.credits', ['type_menu' => '']);
+            // User logs
+            Route::get('/userlogs', [UserLogController::class, 'index'])->name('userlogs.index');
+        });
+    });
 });
