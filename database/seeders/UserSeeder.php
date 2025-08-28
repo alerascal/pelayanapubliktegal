@@ -4,19 +4,33 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Jalankan seeder untuk membuat admin dan user.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Seeder untuk Admin
+        // Master Admin (is_master = true)
+        User::updateOrCreate(
+            ['email' => 'master@tegal.com'],
+            [
+                'name' => 'Master Admin DPRD Tegal',
+                'nik' => '3201011999010001',
+                'phone' => '081234567801',
+                'alamat' => 'Jl. Proklamasi No. 1',
+                'email_verified_at' => now(),
+                'password' => Hash::make('123'), // Password: 123
+                'remember_token' => Str::random(10),
+                'role' => 'master',
+                'is_master' => true,
+                'is_banned' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
+        // Admin Biasa
         $admins = [
             [
                 'name' => 'Admin DPRD Tegal 2',
@@ -49,7 +63,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($admins as $admin) {
-            DB::table('users')->updateOrInsert(
+            User::updateOrCreate(
                 ['email' => $admin['email']],
                 [
                     'name' => $admin['name'],
@@ -57,9 +71,10 @@ class UserSeeder extends Seeder
                     'phone' => $admin['phone'],
                     'alamat' => $admin['alamat'],
                     'email_verified_at' => now(),
-                    'password' => Hash::make('123'), // password: 123
+                    'password' => Hash::make('123'), // Password: 123
                     'remember_token' => Str::random(10),
                     'role' => 'admin',
+                    'is_master' => false,
                     'is_banned' => false,
                     'created_at' => now(),
                     'updated_at' => now(),
@@ -67,7 +82,7 @@ class UserSeeder extends Seeder
             );
         }
 
-        // Seeder untuk User Biasa
+        // User Biasa
         $users = [
             [
                 'name' => 'User Biasa 1',
@@ -93,7 +108,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            DB::table('users')->updateOrInsert(
+            User::updateOrCreate(
                 ['email' => $user['email']],
                 [
                     'name' => $user['name'],
@@ -101,9 +116,10 @@ class UserSeeder extends Seeder
                     'phone' => $user['phone'],
                     'alamat' => $user['alamat'],
                     'email_verified_at' => now(),
-                    'password' => Hash::make('123'), // password: 123
+                    'password' => Hash::make('123'), // Password: 123
                     'remember_token' => Str::random(10),
                     'role' => 'user',
+                    'is_master' => false,
                     'is_banned' => false,
                     'created_at' => now(),
                     'updated_at' => now(),

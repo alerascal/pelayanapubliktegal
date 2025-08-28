@@ -2,78 +2,158 @@
 
 @section('title', 'Tambah Anggota Dewan')
 
-@push('style')
-    <!-- CSS Libraries -->
-    <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/codemirror/lib/codemirror.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/codemirror/theme/duotone-dark.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
-@endpush
-
 @section('main')
-    <div class="main-content">
-        <section class="section">
-            <div class="section-header">
-                <h1>Tambah Anggota Dewan</h1>
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1 class="text-primary">Tambah Anggota Dewan</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active">
+                    <a href="{{ route('anggota.index') }}">Data Anggota</a>
+                </div>
+                <div class="breadcrumb-item">Tambah Anggota</div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Form Anggota Dewan</h4>
-                        </div>
-                        <div class="card-body">
-                            <form action="{{ route('anggota.store') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="nama">Nama</label>
-                                    <input type="text" name="nama" id="nama" class="form-control" required>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <form action="{{ route('anggota.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+
+                            {{-- DATA UTAMA --}}
+                            <h5 class="text-dark">📋 Informasi Umum</h5>
+                            <div class="form-group">
+                                <label>Nama Lengkap <span class="text-danger">*</span></label>
+                                <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Jabatan <span class="text-danger">*</span></label>
+                                <input type="text" name="jabatan" class="form-control" value="{{ old('jabatan') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Fraksi</label>
+                                <input type="text" name="fraksi" class="form-control" value="{{ old('fraksi') }}">
+                            </div>
+
+                            {{-- FOTO --}}
+                            <div class="form-group">
+                                <label>Foto Anggota</label>
+                                <input type="file" name="gambar_anggota" id="gambar_anggota" class="form-control-file">
+                                <img id="gambar-preview" class="img-fluid mt-3 d-none rounded shadow-sm" style="max-height: 200px;">
+                            </div>
+
+                            {{-- PENDIDIKAN --}}
+                            <h5 class="text-dark mt-4">🎓 Riwayat Pendidikan</h5>
+                            <div id="pendidikan-container">
+                                <div class="form-group d-flex align-items-center">
+                                    <input type="text" name="pendidikan[]" class="form-control mr-2" placeholder="Contoh: S1 Ekonomi - UGM">
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="hapusElemen(this)">Hapus</button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="jabatan">Jabatan</label>
-                                    <input type="text" name="jabatan" id="jabatan" class="form-control" required>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary mb-3" onclick="tambahPendidikan()">+ Tambah Pendidikan</button>
+
+                            {{-- PENGALAMAN --}}
+                            <h5 class="text-dark mt-4">🧪 Pengalaman</h5>
+                            <div id="pengalaman-container">
+                                <div class="form-group d-flex align-items-center">
+                                    <textarea name="pengalaman[]" class="form-control mr-2" rows="2" placeholder="Contoh: Ketua Panitia XYZ"></textarea>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="hapusElemen(this)">Hapus</button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="fraksi">Nama Fraksi</label>
-                                    <input type="text" name="fraksi" id="fraksi" class="form-control" required> 
-                                </div>
-                                <div class="form-group">
-                                    <label for="gambar_anggota">Gambar Anggota</label>
-                                    <input type="file" name="gambar_anggota" id="gambar_anggota" class="form-control">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </form>
-                        </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary mb-3" onclick="tambahPengalaman()">+ Tambah Pengalaman</button>
+
+                            {{-- SOSIAL MEDIA --}}
+                            <h5 class="text-dark mt-4">🌐 Sosial Media</h5>
+                            <p class="text-muted mb-2">Pilih jenis sosial media dan isi link-nya (boleh dikosongkan jika tidak punya).</p>
+                            @php $sosmedList = ['Facebook', 'Instagram', 'TikTok', 'Twitter']; @endphp
+                            @foreach ($sosmedList as $sosmed)
+                            <div class="form-group">
+                                <label>{{ $sosmed }}</label>
+                                <input type="url" name="sosmed[{{ strtolower($sosmed) }}]" class="form-control" value="{{ old('sosmed.' . strtolower($sosmed)) }}" placeholder="https://{{ strtolower($sosmed) }}.com/namauser (opsional)">
+                            </div>
+                            @endforeach
+
+                            {{-- BIOGRAFI --}}
+                            <h5 class="text-dark mt-4">📜 Biografi Lengkap</h5>
+                            <div class="form-group">
+                                <label>Latar Belakang</label>
+                                <textarea name="bio_latar" class="form-control" rows="3">{{ old('bio_latar') }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Perjalanan Karier</label>
+                                <textarea name="bio_karier" class="form-control" rows="3">{{ old('bio_karier') }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Jabatan & Penghargaan</label>
+                                <textarea name="bio_jabatan" class="form-control" rows="3">{{ old('bio_jabatan') }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Visi dan Motivasi</label>
+                                <textarea name="bio_visi" class="form-control" rows="3">{{ old('bio_visi') }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Fokus Perjuangan</label>
+                                <textarea name="bio_fokus" class="form-control" rows="3">{{ old('bio_fokus') }}</textarea>
+                            </div>
+
+                            <div class="text-right mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save mr-1"></i> Simpan Data
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 @endsection
 
 @push('scripts')
-    <!-- JS Libraies -->
-    <script src="{{ asset('library/summernote/dist/summernote-bs4.js') }}"></script>
-    <script src="{{ asset('library/codemirror/lib/codemirror.js') }}"></script>
-    <script src="{{ asset('library/codemirror/mode/javascript/javascript.js') }}"></script>
-    <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
+<script>
+    // Preview Gambar
+    document.getElementById("gambar_anggota")?.addEventListener("change", function (event) {
+        const input = event.target;
+        const preview = document.getElementById("gambar-preview");
 
-    <script>
-        document.getElementById('gambar-input').addEventListener('change', function(event) {
-            const input = event.target;
-            const preview = document.getElementById('gambar-preview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.classList.remove("d-none");
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
 
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('d-none'); // Tampilkan gambar
-                };
-                reader.readAsDataURL(input.files[0]); // Membaca file sebagai DataURL
-            } else {
-                preview.src = '#';
-                preview.classList.add('d-none'); // Sembunyikan gambar jika tidak ada file
-            }
-        });
-    </script>
+    // Tambah Pendidikan
+    function tambahPendidikan() {
+        const container = document.getElementById("pendidikan-container");
+        const div = document.createElement("div");
+        div.classList.add("form-group", "d-flex", "align-items-center", "mt-2");
+        div.innerHTML = `
+            <input type="text" name="pendidikan[]" class="form-control mr-2" placeholder="Contoh: S1 Hukum - UNDIP">
+            <button type="button" class="btn btn-sm btn-danger" onclick="hapusElemen(this)">Hapus</button>`;
+        container.appendChild(div);
+    }
+
+    // Tambah Pengalaman
+    function tambahPengalaman() {
+        const container = document.getElementById("pengalaman-container");
+        const div = document.createElement("div");
+        div.classList.add("form-group", "d-flex", "align-items-center", "mt-2");
+        div.innerHTML = `
+            <textarea name="pengalaman[]" class="form-control mr-2" rows="2" placeholder="Contoh: Ketua Komisi A"></textarea>
+            <button type="button" class="btn btn-sm btn-danger" onclick="hapusElemen(this)">Hapus</button>`;
+        container.appendChild(div);
+    }
+
+    // Hapus Elemen
+    function hapusElemen(el) {
+        el.parentElement.remove();
+    }
+</script>
 @endpush

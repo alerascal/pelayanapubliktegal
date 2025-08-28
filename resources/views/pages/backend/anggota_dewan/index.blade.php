@@ -84,8 +84,8 @@
                                     <th>Nama</th>
                                     <th>Jabatan</th>
                                     <th>Foto</th>
-                                    <th>Fraksi</th>  
-                                    <th>Dibuat Oleh</th>                 
+                                    <th>Fraksi</th>
+                                    <th>Dibuat Oleh</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -99,9 +99,11 @@
                                         </td>
                                         <td>{{ $anggota->fraksi }}</td>
                                         <td>{{ optional($anggota->user)->name ?? 'Tidak diketahui' }}</td>
-
                                         <td>
                                             <div class="btn-action">
+                                                <a href="{{ route('anggota.show', $anggota->id) }}" class="btn-icon btn-info" title="Lihat Detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
                                                 <a href="{{ route('anggota.edit', $anggota->id) }}" class="btn-icon btn-edit" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
@@ -121,7 +123,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted">Belum ada data anggota.</td>
+                                        <td colspan="6" class="text-center text-muted">Belum ada data anggota.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

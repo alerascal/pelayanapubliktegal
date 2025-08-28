@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
-use Illuminate\Support\Facades\Auth;
 use App\Models\LowonganMagang;
 use App\Models\PendaftaranMagang;
 use App\Models\AnggotaDewan;
 use App\Models\Aspirasi;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -44,7 +44,6 @@ class FrontendController extends Controller
 
     public function postDetail($slug)
     {
-        
         $berita = Berita::where('slug', $slug)->firstOrFail();
         $previousBerita = Berita::where('id', '<', $berita->id)->orderBy('id', 'desc')->first();
         $nextBerita = Berita::where('id', '>', $berita->id)->orderBy('id', 'asc')->first();
@@ -53,5 +52,11 @@ class FrontendController extends Controller
         return view('pages.frontend.post_detail', compact(
             'berita', 'previousBerita', 'nextBerita', 'beritaLain'
         ));
+    }
+
+    public function detailAnggota($id)
+    {
+        $anggota = AnggotaDewan::findOrFail($id);
+        return view('pages.frontend.detail_anggota', compact('anggota'));
     }
 }

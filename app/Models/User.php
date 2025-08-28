@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'alamat',
         'role',
+        'is_master',
         'is_banned',
     ];
 
@@ -50,10 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(UserLog::class);
     }
 
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
-    }
+  public function isAdmin()
+{
+    return in_array($this->role, ['admin', 'master']);
+}
+
       public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail());
@@ -63,4 +65,9 @@ public function sendPasswordResetNotification($token)
 {
     $this->notify(new CustomResetPassword($token, $this));
 }
+public function getIsMasterAttribute()
+{
+    return $this->role === 'master';
+}
+
 }

@@ -48,9 +48,9 @@ class LoginController extends Controller
 
             // Kirim notifikasi (opsional)
             return back()->withErrors([
-                'email' => 'Akun Anda telah diblokir.',
-            ])->with('status', 'Akun Anda telah diblokir oleh admin.')
-              ->withInput($request->only('email'));
+    'email' => 'Akun Anda telah diblokir oleh admin.',
+])->withInput($request->only('email'));
+
         }
 
         // Tambahkan log aktivitas jika login sukses
@@ -91,4 +91,5 @@ class LoginController extends Controller
     {
         return $user->isAdmin() ? '/dashboard' : '/';
     }
+    
 }

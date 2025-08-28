@@ -40,10 +40,6 @@
            style="max-width: 700px; line-height: 1.8; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); font-size: 1.1rem;">
             Pelayanan publik berbasis <b>transparansi</b>, <b>akuntabilitas</b>, dan <b>inovasi</b> demi kemajuan Kota Tegal yang <b>demokratif</b> dan <b>disiplin</b>.
         </p>
-        <a href="#next" class="scroll-button btn btn-lg mt-4 px-5 animate__animated animate__pulse animate__infinite"
-           style="background-color: #003366; color: white; border-radius: 30px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); transition: all 0.3s ease;">
-            Jelajahi Sekarang
-        </a>
     </div>
 </section>
 

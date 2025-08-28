@@ -60,19 +60,13 @@
                     <form method="POST" action="<?php echo e(route('login')); ?>" class="needs-validation" novalidate="">
                         <?php echo csrf_field(); ?>
 
-                        <?php if(session('status')): ?>
-                            <div class="success-notification">
-                                <i class="fas fa-check-circle me-2"></i> <?php echo e(session('status')); ?>
+                    <?php if($errors->has('email')): ?>
+    <div class="error-notification">
+        <i class="fas fa-times-circle me-2"></i> <?php echo e($errors->first('email')); ?>
 
-                            </div>
-                        <?php endif; ?>
+    </div>
+<?php endif; ?>
 
-                        <?php if($errors->has('email')): ?>
-                            <div class="error-notification">
-                                <i class="fas fa-times-circle me-2"></i> <?php echo e($errors->first('email')); ?>
-
-                            </div>
-                        <?php endif; ?>
 
                         <div class="form-group">
                             <label for="email">Email</label>

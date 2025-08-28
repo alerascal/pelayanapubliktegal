@@ -85,8 +85,8 @@
                                     <th>Nama</th>
                                     <th>Jabatan</th>
                                     <th>Foto</th>
-                                    <th>Fraksi</th>  
-                                    <th>Dibuat Oleh</th>                 
+                                    <th>Fraksi</th>
+                                    <th>Dibuat Oleh</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -100,9 +100,11 @@
                                         </td>
                                         <td><?php echo e($anggota->fraksi); ?></td>
                                         <td><?php echo e(optional($anggota->user)->name ?? 'Tidak diketahui'); ?></td>
-
                                         <td>
                                             <div class="btn-action">
+                                                <a href="<?php echo e(route('anggota.show', $anggota->id)); ?>" class="btn-icon btn-info" title="Lihat Detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
                                                 <a href="<?php echo e(route('anggota.edit', $anggota->id)); ?>" class="btn-icon btn-edit" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
@@ -122,7 +124,7 @@
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted">Belum ada data anggota.</td>
+                                        <td colspan="6" class="text-center text-muted">Belum ada data anggota.</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>

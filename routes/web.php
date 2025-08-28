@@ -31,7 +31,7 @@ Route::middleware('guest')->group(function () {
 // -------------------------
 // Email verification
 // -------------------------
-Route::get('/email/verify', fn () => view('pages.auth.emails.verify'))
+Route::get('/email/verify', fn() => view('pages.auth.emails.verify'))
     ->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -65,6 +65,7 @@ Route::view('/visimisi', 'pages.frontend.visimisi')->name('visimisi');
 Route::get('/sekretariat', [FrontendController::class, 'sekretariat'])->name('sekretariat');
 Route::get('/lowongan-magang', [LowonganMagangController::class, 'frontendIndex'])->name('magang.lowongan');
 Route::get('/anggota-dewan', [AnggotaDewanController::class, 'showAnggota'])->name('anggota.showAnggota');
+Route::get('/anggota/{id}/detail', [FrontendController::class, 'detailAnggota'])->name('anggota.detail');
 
 // -------------------------
 // Authenticated (All users)
@@ -93,8 +94,10 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
         // Berita
         Route::resource('berita', BeritaController::class)->parameters(['berita' => 'berita']);
 
-        // Anggota Dewan
-        Route::resource('anggota', AnggotaDewanController::class);
+        Route::resource('anggota', AnggotaDewanController::class)->parameters([
+            'anggota' => 'anggota'
+        ]);
+
 
         // Aspirasi (admin)
         Route::prefix('aspirasi')->group(function () {

@@ -73,73 +73,65 @@
                 position: fixed;
                 top: 0;
                 width: 100%;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
                 z-index: 1000;
-                transition: all 0.3s ease;
             }
 
             .navbar-brand {
                 display: flex;
                 align-items: center;
-                transition: transform 0.3s ease;
             }
 
             .navbar-brand:hover {
-                transform: scale(1.1);
+                opacity: 0.9;
             }
 
             .navbar-nav .nav-link {
                 color: #ffffff !important;
-                font-weight: 600;
-                font-size: 1.2rem;
-                margin-right: 15px;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-                transition: all 0.3s ease;
+                font-weight: 500;
+                font-size: 1.1rem;
+                margin-right: 12px;
+                transition: color 0.3s ease;
             }
 
             .navbar-nav .nav-link:hover {
                 color: #ffc107 !important;
-                transform: translateY(-3px) scale(1.05);
             }
 
             .navbar .dropdown-menu {
-                background: linear-gradient(180deg, #ffffff, #f0f8ff);
-                border-radius: 12px;
+                background: #ffffff;
+                border-radius: 8px;
                 border: none;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-                animation: slideIn 0.4s ease-in-out;
-                padding: 0.75rem 0;
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+                padding: 0.5rem 0;
             }
 
             .navbar .dropdown-item {
                 color: #333;
-                font-weight: 500;
-                padding: 12px 30px;
-                transition: all 0.3s ease;
+                font-weight: 400;
+                padding: 10px 25px;
+                transition: background 0.3s ease, color 0.3s ease;
             }
 
             .navbar .dropdown-item:hover {
-                background: linear-gradient(45deg, #005fa3, #007bff);
+                background: #005fa3;
                 color: #ffffff;
-                transform: translateX(8px);
             }
 
             .btn-login {
                 background: transparent;
                 border: 2px solid #ffc107;
                 color: #ffc107 !important;
-                border-radius: 30px;
-                padding: 8px 20px;
-                font-weight: 600;
+                border-radius: 25px;
+                padding: 6px 18px;
+                font-weight: 500;
                 transition: all 0.3s ease;
             }
 
             .btn-login:hover {
-                background: linear-gradient(45deg, #ffc107, #ffca28);
+                background: #ffc107;
                 color: #003366 !important;
                 border-color: #ffc107;
-                transform: scale(1.15);
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             }
 
             /* Footer */
@@ -159,19 +151,7 @@
 
             .footer-icon a:hover {
                 color: #ffc107;
-                transform: scale(1.3) rotate(10deg);
-            }
-
-            /* Animations */
-            @keyframes slideIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(15px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                transform: scale(1.2);
             }
 
             .text-sm {
@@ -189,7 +169,7 @@
             }
 
             .contact-icon:hover {
-                transform: scale(1.3) rotate(15deg);
+                transform: scale(1.2);
                 color: #ffc107 !important;
             }
         </style>
@@ -197,52 +177,39 @@
 
     <body id="top">
         <div class="site-wrap">
-            {{-- MOBILE MENU --}}
-            <div
-                class="site-mobile-menu site-navbar-target animate__animated animate__fadeIn"
-            >
+            <!-- MOBILE MENU -->
+            <div class="site-mobile-menu site-navbar-target">
                 <div class="site-mobile-menu-header">
                     <div class="site-mobile-menu-close mt-3">
-                        <span
-                            class="icon-close2 js-menu-toggle animate__animated animate__zoomIn"
-                        ></span>
+                        <span class="icon-close2 js-menu-toggle"></span>
                     </div>
                 </div>
                 <div class="site-mobile-menu-body"></div>
             </div>
 
-            {{-- NAVBAR --}}
+            <!-- NAVBAR -->
             <nav
-                class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm animate__animated animate__fadeInDown"
+                class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm"
             >
                 <div class="container">
-                    {{-- Logo & Judul --}}
-                    <a
-                        class="navbar-brand d-flex align-items-center animate__animated animate__zoomIn"
-                        href="/"
-                    >
+                    <!-- Logo & Judul -->
+                    <a class="navbar-brand d-flex align-items-center" href="/">
                         <img
                             src="{{ asset('assets/logo.png') }}"
                             alt="Logo"
-                            style="
-                                height: 40px;
-                                transition: transform 0.3s ease;
-                            "
+                            style="height: 40px"
                         />
                         <span
                             class="ml-3 font-weight-bold text-white"
-                            style="
-                                font-size: 1.5rem;
-                                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-                            "
+                            style="font-size: 1.5rem"
                         >
                             DPRD Kota Tegal
                         </span>
                     </a>
 
-                    {{-- Toggle Menu --}}
+                    <!-- Toggle Menu -->
                     <button
-                        class="navbar-toggler animate__animated animate__fadeIn"
+                        class="navbar-toggler"
                         type="button"
                         data-toggle="collapse"
                         data-target="#navbarNav"
@@ -250,13 +217,11 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    {{-- Isi Menu --}}
+                    <!-- Isi Menu -->
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mx-auto align-items-center">
-                            {{-- Dropdown Beranda --}}
-                            <li
-                                class="nav-item dropdown animate__animated animate__fadeIn animate__delay-1s"
-                            >
+                            <!-- Dropdown Beranda -->
+                            <li class="nav-item dropdown">
                                 <a
                                     class="nav-link dropdown-toggle"
                                     href="#"
@@ -270,28 +235,22 @@
                                     class="dropdown-menu"
                                     aria-labelledby="berandaDropdown"
                                 >
-                                    <a
-                                        class="dropdown-item animate__animated animate__fadeInUp animate__delay-0s"
-                                        href="/"
+                                    <a class="dropdown-item" href="/"
                                         >Beranda</a
                                     >
-                                    <a
-                                        class="dropdown-item animate__animated animate__fadeInUp animate__delay-1s"
-                                        href="/sejarah"
+                                    <a class="dropdown-item" href="/sejarah"
                                         >Sejarah</a
                                     >
-                                    <a
-                                        class="dropdown-item animate__animated animate__fadeInUp animate__delay-2s"
-                                        href="/visimisi"
+                                    <a class="dropdown-item" href="/visimisi"
                                         >Visi Misi</a
                                     >
                                     <a
-                                        class="dropdown-item animate__animated animate__fadeInUp animate__delay-3s"
+                                        class="dropdown-item"
                                         href="{{ route('sekretariat') }}"
                                         >Sekretariat</a
                                     >
                                     <a
-                                        class="dropdown-item animate__animated animate__fadeInUp animate__delay-4s"
+                                        class="dropdown-item"
                                         href="{{
                                             route('anggota.showAnggota')
                                         }}"
@@ -299,24 +258,20 @@
                                         Pimpinan Dewan DPRD Kota Tegal
                                     </a>
                                     <a
-                                        class="dropdown-item animate__animated animate__fadeInUp animate__delay-5s"
+                                        class="dropdown-item"
                                         href="{{ route('aspirasi.create') }}"
+                                        >Aspirasi</a
                                     >
-                                        Aspirasi
-                                    </a>
                                     <a
-                                        class="dropdown-item animate__animated animate__fadeInUp animate__delay-6s"
+                                        class="dropdown-item"
                                         href="{{ route('magang.lowongan') }}"
+                                        >Lowongan Magang</a
                                     >
-                                        Lowongan Magang
-                                    </a>
                                 </div>
                             </li>
 
-                            {{-- Pemberitahuan --}}
-                            <li
-                                class="nav-item animate__animated animate__fadeIn animate__delay-2s"
-                            >
+                            <!-- Pemberitahuan -->
+                            <li class="nav-item">
                                 <a
                                     class="nav-link"
                                     href="{{ route('pemberitahuan') }}"
@@ -325,12 +280,10 @@
                             </li>
                         </ul>
 
-                        {{-- Auth --}}
+                        <!-- Auth -->
                         <ul class="navbar-nav align-items-center">
                             @auth
-                            <li
-                                class="nav-item dropdown animate__animated animate__fadeIn animate__delay-3s"
-                            >
+                            <li class="nav-item dropdown">
                                 <a
                                     class="nav-link dropdown-toggle d-flex align-items-center"
                                     href="#"
@@ -350,7 +303,7 @@
                                     >
                                         @csrf
                                         <button
-                                            class="dropdown-item animate__animated animate__fadeInUp"
+                                            class="dropdown-item"
                                             type="submit"
                                         >
                                             <i
@@ -362,9 +315,7 @@
                                 </div>
                             </li>
                             @else
-                            <li
-                                class="nav-item animate__animated animate__fadeIn animate__delay-3s"
-                            >
+                            <li class="nav-item">
                                 <a
                                     class="nav-link btn btn-login"
                                     href="{{ route('login') }}"

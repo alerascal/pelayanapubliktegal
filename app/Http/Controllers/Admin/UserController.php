@@ -15,7 +15,7 @@ class UserController extends Controller
         $query = User::query();
 
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
+            $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('email', 'like', '%' . $request->search . '%');
             });
@@ -26,66 +26,109 @@ class UserController extends Controller
         }
 
         if ($request->filled('status')) {
-            if ($request->status == 'banned') {
+            if ($request->status === 'banned') {
                 $query->where('is_banned', true);
-            } elseif ($request->status == 'active') {
+            } elseif ($request->status === 'active') {
                 $query->where('is_banned', false);
             }
         }
 
-        $users = $query->paginate(10)->appends($request->all());
+        $users = $query
+    ->orderByRaw("FIELD(role, 'master', 'admin', 'user')")
+    ->orderBy('created_at', 'desc')
+    ->paginate(10)
+    ->appends($request->all());
+
 
         return view('admin.users.index', compact('users'));
     }
 
-    public function ban($id)
-    {
-        $user = User::findOrFail($id);
-        $user->is_banned = true;
-        $user->save();
+public function ban($id)
+{
+    $target = User::findOrFail($id);
+    $current = Auth::user();
 
-        UserLog::create([
-            'user_id' => Auth::id(),
-            'activity' => 'Membanned pengguna "' . $user->name . '"',
-            'activity_at' => now(),
-        ]);
-
-        return back()->with('success', 'Pengguna berhasil dibanned.');
+    if ($target->id === $current->id) {
+        return back()->with('error', 'Anda tidak dapat membanned diri sendiri.');
     }
 
-    public function unban($id)
-    {
-        $user = User::findOrFail($id);
-        $user->is_banned = false;
-        $user->save();
-
-        UserLog::create([
-            'user_id' => Auth::id(),
-            'activity' => 'Mengaktifkan kembali pengguna "' . $user->name . '"',
-            'activity_at' => now(),
-        ]);
-
-        return back()->with('success', 'Pengguna berhasil diaktifkan kembali.');
+    // Admin hanya bisa ban user biasa
+    if ($current->role === 'admin' && $target->role !== 'user') {
+        return back()->with('error', 'Admin hanya dapat membanned user biasa.');
     }
 
-    public function changeRole(Request $request, $id)
-    {
-        $request->validate([
-            'role' => 'required|in:user,admin',
-        ]);
+    $target->is_banned = true;
+    $target->save();
 
-        $user = User::findOrFail($id);
-        $user->role = $request->role;
-        $user->save();
+    UserLog::create([
+        'user_id' => $current->id,
+        'activity' => 'Membanned pengguna "' . $target->name . '"',
+        'activity_at' => now(),
+    ]);
 
-        UserLog::create([
-            'user_id' => Auth::id(),
-            'activity' => 'Mengubah role pengguna "' . $user->name . '" menjadi "' . $user->role . '"',
-            'activity_at' => now(),
-        ]);
+    return back()->with('success', 'Pengguna berhasil dibanned.');
+}
 
-        return back()->with('success', 'Role pengguna diperbarui.');
+public function unban($id)
+{
+    $target = User::findOrFail($id);
+    $current = Auth::user();
+
+    if ($target->id === $current->id) {
+        return back()->with('error', 'Anda tidak dapat mengubah status diri sendiri.');
     }
+
+    if ($current->role === 'admin' && $target->role !== 'user') {
+        return back()->with('error', 'Admin hanya dapat mengaktifkan kembali user biasa.');
+    }
+
+    $target->is_banned = false;
+    $target->save();
+
+    UserLog::create([
+        'user_id' => $current->id,
+        'activity' => 'Mengaktifkan kembali pengguna "' . $target->name . '"',
+        'activity_at' => now(),
+    ]);
+
+    return back()->with('success', 'Pengguna berhasil diaktifkan kembali.');
+}
+public function changeRole(Request $request, $id)
+{
+    $request->validate([
+        'role' => 'required|in:user,admin',
+    ]);
+
+    $target = User::findOrFail($id);
+    $current = Auth::user();
+
+    if ($target->id === $current->id) {
+        return back()->with('error', 'Anda tidak dapat mengubah role diri sendiri.');
+    }
+
+    if ($target->role === 'master') {
+        return back()->with('error', 'Role Master tidak dapat diubah.');
+    }
+
+    // Admin hanya bisa upgrade user → admin
+    if ($current->role === 'admin') {
+        if ($target->role !== 'user' || $request->role !== 'admin') {
+            return back()->with('error', 'Anda tidak memiliki izin untuk mengubah role ini.');
+        }
+    }
+
+    $target->role = $request->role;
+    $target->save();
+
+    UserLog::create([
+        'user_id' => $current->id,
+        'activity' => ucfirst($current->role) . ' mengubah role "' . $target->name . '" menjadi "' . $request->role . '"',
+        'activity_at' => now(),
+    ]);
+
+    return back()->with('success', 'Role pengguna berhasil diperbarui.');
+}
+
 
     protected function authenticated(Request $request, $user)
     {

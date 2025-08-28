@@ -17,11 +17,28 @@ class AnggotaDewan extends Model
         'gambar_anggota',
         'fraksi',
         'user_id',
+        'bio',
+        'pendidikan',
+        'pengalaman',
+        'kontak',
+        'sosmed',
+        'bio_latar',
+        'bio_karier',
+        'bio_jabatan',
+        'bio_visi',
+        'bio_fokus',
     ];
-   
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
 
+    protected $casts = [
+        'pendidikan' => 'array',
+        'pengalaman' => 'array',
+        'sosmed' => 'array',
+    ];
+
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

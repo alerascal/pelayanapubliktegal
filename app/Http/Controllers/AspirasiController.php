@@ -141,7 +141,7 @@ public function updateStatus(Request $request, $id)
         $aspirasi->delete();
 
         UserLog::create([
-            'User_id' => Auth::id(),
+            'user_id' => Auth::id(),
             'activity' => 'Mengarsipkan aspirasi "' . $judul . '"',
             'activity_at' => now(),
         ]);
@@ -201,7 +201,7 @@ public function updateStatus(Request $request, $id)
         $aspirasi->restore();
 
         UserLog::create([
-            'User_id' => Auth::id(),
+            'user_id' => Auth::id(),
             'activity' => 'Mengembalikan aspirasi "' . $aspirasi->judul . '" dari arsip',
             'activity_at' => now(),
         ]);
@@ -214,7 +214,7 @@ public function updateStatus(Request $request, $id)
         Aspirasi::onlyTrashed()->restore();
 
         UserLog::create([
-            'User_id' => Auth::id(),
+            'user_id' => Auth::id(),
             'activity' => 'Mengembalikan semua aspirasi dari arsip',
             'activity_at' => now(),
         ]);
@@ -227,7 +227,7 @@ public function updateStatus(Request $request, $id)
         Aspirasi::whereNull('deleted_at')->delete();
 
         UserLog::create([
-            'User_id' => Auth::id(),
+            'user_id' => Auth::id(),
             'activity' => 'Mengarsipkan semua aspirasi',
             'activity_at' => now(),
         ]);
@@ -247,7 +247,7 @@ public function updateStatus(Request $request, $id)
         $aspirasi->forceDelete();
 
         UserLog::create([
-            'User_id' => Auth::id(),
+            'user_id' => Auth::id(),
             'activity' => 'Menghapus permanen aspirasi "' . $judul . '"',
             'activity_at' => now(),
         ]);

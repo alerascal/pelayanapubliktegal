@@ -33,7 +33,7 @@
                         <i class="fas fa-search"></i>
                     </span>
                     <input type="text" name="search" class="form-control border-info"
-                           value="{{ request('search') }}" placeholder="🔍 Cari nama atau ID lowongan...">
+                           value="{{ request('search') }}" placeholder="🔍 Cari nama pendaftar..">
                 </div>
 
                 <button type="submit" class="btn btn-primary">

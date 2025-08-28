@@ -60,17 +60,12 @@
                     <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
                         @csrf
 
-                        @if (session('status'))
-                            <div class="success-notification">
-                                <i class="fas fa-check-circle me-2"></i> {{ session('status') }}
-                            </div>
-                        @endif
+                    @if ($errors->has('email'))
+    <div class="error-notification">
+        <i class="fas fa-times-circle me-2"></i> {{ $errors->first('email') }}
+    </div>
+@endif
 
-                        @if ($errors->has('email'))
-                            <div class="error-notification">
-                                <i class="fas fa-times-circle me-2"></i> {{ $errors->first('email') }}
-                            </div>
-                        @endif
 
                         <div class="form-group">
                             <label for="email">Email</label>
