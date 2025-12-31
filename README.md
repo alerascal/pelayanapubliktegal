@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="graph.png" alt="SIPEDULI Logo" width="120">
+  <img src="logo.png" alt="SIPEDULI Logo" width="120">
 </p>
 
 <h1 align="center">🏛️ SIPEDULI – Sistem Pelayanan Publik DPRD Kota Tegal</h1>
