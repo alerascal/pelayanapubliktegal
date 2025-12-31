@@ -114,10 +114,3 @@ Proyek ini dikembangkan untuk keperluan **pendidikan dan pengembangan sistem pel
 Template admin menggunakan **Stisla** dengan lisensi **MIT**.
 
 ⭐ Jika repository ini bermanfaat, silakan berikan **star** untuk mendukung pengembangan proyek ini.
-
-
-## 🔥 Setelah Ini
-Jalankan:
-git add README.md
-git commit -m "Update README SIPEDULI yang lebih profesional"
-git push
