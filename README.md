@@ -1,75 +1,123 @@
 <p align="center">
-  <a href="https://laravel.com/">
-    <img src="https://laravel.com/img/logomark.min.svg" alt="laravel logo" width="75" height="75">
-  </a>
-  <a href="https://getstisla.com">
-    <img src="https://avatars2.githubusercontent.com/u/45754626?s=75&v=4" alt="Stisla logo" width="75" height="75">
-  </a>
+  <img src="graph.png" alt="SIPEDULI Logo" width="120">
 </p>
 
-<h1 align="center">Laravel Stisla</h1>
-
-<span align="center">
-
-**Laravel Stisla** is a Free Bootstrap Admin Template which will help you to speed up your project and design your own dashboard UI using Laravel blade templating engine.
-
-</span>
-
-<br>
+<h1 align="center">🏛️ SIPEDULI – Sistem Pelayanan Publik DPRD Kota Tegal</h1>
 
 <p align="center">
-  <a href="https://getstisla.com">Homepage</a>
-  •
-  <a href="https://github.com/edikurniawan-dev/laravel-stisla#quick-start">Getting Started</a>
-  •
-  <a href="https://demo.getstisla.com" target="_new">Demo</a>
-  •
-  <a href="https://getstisla.com/docs">Documentation</a>
-  •
-  <a href="https://getstisla.com/blog">Blog</a>
-  •
-  <a href="https://github.com/edikurniawan-dev/laravel-stisla/issues">Issue</a>
+  <b>SIPEDULI</b> (Sistem Pelayanan Publik) adalah aplikasi berbasis <b>Laravel 10</b> yang digunakan untuk memfasilitasi masyarakat dalam menyampaikan <b>aspirasi, pengaduan, dan permintaan informasi</b> kepada DPRD Kota Tegal secara online, transparan, dan terstruktur.
 </p>
 
-<br>
-
-[![Stisla Preview](https://camo.githubusercontent.com/2135e0f6544a7286a3412cdc3df32d47fc91b045/68747470733a2f2f692e6962622e636f2f3674646d6358302f323031382d31312d31312d31352d33352d676574737469736c612d636f6d2e706e67)](https://getstisla.com)
-
-## Table of Contents
-
-- [Table of Contents](#table-of-contents)
-- [Quick start](#quick-start)
-- [License](#license)
-- [Supports](#supports)
-
-## Quick start
-
-Several quick start options are available:
-
--   Clone the repo: `git clone https://github.com/edikurniawan-dev/laravel-stisla.git`
--   Run `cd` to the newly created `/laravel-stisla` directory
--   Run `composer install` command
--   Run `npm install` command
--   Run `npm run dev` command
--   Run `cp .env.example .env` command
--   Run `php artisan key:generate` command
--   Run `php artisan serve` command
--   Done
-
-Read the [documentation page](https://getstisla.com/docs) for more information on the framework contents, templates and examples, and more.
-
-## License
-
-**Stisla** is licensed under the [MIT License](LICENSE)
-
-## Supports
-
-Thanks to BrowserStack for their support on this open-source project!
-
-<a href="https://www.browserstack.com">
-  <img src="https://getstisla.com/svg/Browserstack-logo.svg" alt="BrowserStack" width="250">
-</a>
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-10-red">
+  <img src="https://img.shields.io/badge/PHP-8.x-blue">
+  <img src="https://img.shields.io/badge/Bootstrap-Stisla-purple">
+  <img src="https://img.shields.io/badge/Status-Development-orange">
+</p>
 
 ---
 
-Stisla is created by [Nauval](http://nauv.al) ([Twitter](https://twitter.com/mhdnauvalazhar)). You can support the author by donation [here](https://www.buymeacoffee.com/mhd).
+## 📌 Tentang Proyek
+
+SIPEDULI dirancang sebagai solusi digital pelayanan publik untuk meningkatkan:
+- **Transparansi**
+- **Efisiensi pelayanan**
+- **Partisipasi masyarakat**
+
+Aplikasi ini mengadopsi konsep sistem seperti **LAPOR!** dan dikembangkan sebagai proyek berbasis web menggunakan framework Laravel.
+
+---
+
+## ✨ Fitur Utama
+
+### 👥 Masyarakat
+- 📝 Pengajuan **Aspirasi**
+- 📢 **Pengaduan** layanan publik
+- ℹ️ **Permintaan Informasi**
+- 📎 Upload lampiran (surat, dokumen pendukung)
+- 🔍 Monitoring status laporan (diproses / diterima / ditolak)
+
+### 🧑‍💼 Admin / DPRD
+- 📊 Dashboard monitoring laporan masuk
+- 📂 Manajemen data laporan masyarakat
+- 🗂️ Klasifikasi laporan (Aspirasi / Pengaduan / Informasi)
+- 🔄 Update status laporan
+- 📥 Download file lampiran laporan
+
+
+## 🚀 Instalasi
+
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi secara lokal:
+
+### 1️⃣ Clone Repository
+git clone https://github.com/alerascal/pelayanapubliktegal.git
+### 2️⃣ Masuk ke Folder Proyek
+
+cd pelayanapubliktegal
+
+### 3️⃣ Install Dependency Backend
+composer install
+
+### 4️⃣ Install Dependency Frontend
+npm install && npm run dev
+
+### 5️⃣ Copy File Environment
+cp .env.example .env
+
+### 6️⃣ Generate Application Key
+
+php artisan key:generate
+
+### 7️⃣ Konfigurasi Database
+
+Sesuaikan konfigurasi database di file `.env`:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sipeduli_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+### 8️⃣ Migrasi Database
+php artisan migrate
+
+### 9️⃣ Jalankan Server
+php artisan serve
+
+## ⚙️ Teknologi yang Digunakan
+
+* Laravel 10
+* PHP 8.x
+* MySQL
+* Bootstrap (Stisla Admin Template)
+* JavaScript
+* Blade Template Engine
+## 🗺️ Roadmap Pengembangan
+
+* [x] Sistem aspirasi & pengaduan masyarakat
+* [x] Upload file lampiran laporan
+* [x] Dashboard admin DPRD
+* [ ] Notifikasi email laporan
+* [ ] Export laporan ke PDF / Excel
+* [ ] Tracking laporan real-time
+* [ ] Integrasi API pelayanan publik
+## 👤 Author
+
+**Moh Sahrul Alam Syah**
+📍 Mahasiswa / Web Developer
+📧 Email: **[alerascal77@gmail.com](mailto:alerascal77@gmail.com)**
+🔗 GitHub: [https://github.com/alerascal](https://github.com/alerascal)
+
+## 📄 Lisensi
+
+Proyek ini dikembangkan untuk keperluan **pendidikan dan pengembangan sistem pelayanan publik**.
+Template admin menggunakan **Stisla** dengan lisensi **MIT**.
+
+⭐ Jika repository ini bermanfaat, silakan berikan **star** untuk mendukung pengembangan proyek ini.
+
+
+## 🔥 Setelah Ini
+Jalankan:
+git add README.md
+git commit -m "Update README SIPEDULI yang lebih profesional"
+git push
